@@ -4,10 +4,10 @@ This is a separate paper experiment folder. The original CvT2DistilGPT2,
 BioViL-T B1/B2 and clinical experiments remain untouched. The study has three
 component registries, one file per factor:
 
-* `vision_encoders.py` â€” encoder names, feature dimensions, token layouts and
+* `vision_encoders.py`  encoder names, feature dimensions, token layouts and
   checkpoint provenance.
-* `projectors.py` â€” linear, MLP and identity visual-token adapters.
-* `llm_decoders.py` â€” decoder names, hidden sizes and visual-interface rules.
+* `projectors.py`  linear, MLP and identity visual-token adapters.
+* `llm_decoders.py`  decoder names, hidden sizes and visual-interface rules.
 
 `ablation.py` remains the single validation/collection file. Add a new tested
 component to the appropriate registry and add its completed run to its

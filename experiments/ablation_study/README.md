@@ -1,88 +1,67 @@
-# Reproducible chest-X-ray feature/decoder ablations
+# Ablation study
 
-This is a separate paper experiment folder. The original CvT2DistilGPT2,
-BioViL-T B1/B2 and clinical experiments remain untouched. The study has three
-component registries, one file per factor:
+This folder contains the controlled, reproducible comparison of chest X-ray feature extractors, visual-token projectors, and report-generation decoders. It is deliberately independent from the original training folders, so new ablations do not modify or overwrite prior checkpoints.
 
-* `vision_encoders.py`  encoder names, feature dimensions, token layouts and
-  checkpoint provenance.
-* `projectors.py`  linear, MLP and identity visual-token adapters.
-* `llm_decoders.py`  decoder names, hidden sizes and visual-interface rules.
+## Protocol
 
-`ablation.py` remains the single validation/collection file. Add a new tested
-component to the appropriate registry and add its completed run to its
-`EXPERIMENTS` dictionary; do not create a second collector with different
-metric or split conventions.
+Every completed system must use:
 
-The current table contains four complete IU R2Gen test-set runs:
+- the same IU R2Gen benchmark test annotation;
+- the same 590 study IDs and study-level image grouping;
+- the same Findings target and preprocessing convention;
+- the same metric implementation and version record;
+- an explicit local checkpoint path, training regime, and prediction hash.
 
-1. Original CvT-21 + original DistilGPT2 checkpoint.
-2. Frozen BioViL-T + linear projector + frozen decoder (B1).
-3. Frozen BioViL-T + linear projector + fine-tuned DistilGPT2 (B2).
-4. Frozen BioViL-T + clinical MLP/projector + B2 decoder + CheXbert auxiliary loss.
+`ablation.py` validates the shared test order and writes one CSV row per completed experiment. Missing clinical metrics remain empty and are accompanied by an exact `metric_availability` explanation.
 
-Each row is required to contain exactly 590 unique studies in the same order.
-Missing metrics remain blank and their exact availability/error status is stored
-in `metric_availability`; unavailable metrics are never replaced by zero.
+## Component registries
 
-## Build the paper table
+The study is organized into three files. Add new levels to the relevant file rather than creating a new script for each model family.
+
+| Registry | Responsibility |
+|---|---|
+| `vision_encoders.py` | Feature dimensions, token layouts, input size, checkpoint provenance, frozen/default behavior |
+| `projectors.py` | Visual-token adapter architecture and parameter counts |
+| `llm_decoders.py` | Decoder hidden size, visual interface, checkpoint policy, compatibility boundary |
+
+The current registry includes CvT-21, BioViL-T, linear and MLP projectors, and the IU DistilGPT2 decoder. Qwen2 and Llama are declared as planned levels but remain blocked until their visual-token adapter and local checkpoint are tested. This prevents a text-only decoder from being inserted into an incompatible cross-attention interface.
+
+## Completed runs
+
+| Experiment | Encoder | Projector | Decoder/training |
+|---|---|---|---|
+| `cvt2distilgpt2_official` | CvT-21 | Original linear 384 -> 768 | Original IU DistilGPT2 checkpoint |
+| `biovilt_distilgpt2_b1` | Frozen BioViL-T | Linear 512 -> 768 | Projector-only |
+| `biovilt_distilgpt2_b2` | Frozen BioViL-T | Linear 512 -> 768 | Projector plus decoder fine-tuning |
+| `biovilt_distilgpt2_clinical` | Frozen BioViL-T | MLP 512 -> 1024 -> 768 plus clinical head | Report CE plus CheXbert auxiliary loss |
+
+The four runs are descriptive and exploratory. The clinical variant produced a collapsed report pattern in the recorded run and should be treated as a negative ablation until retrained with a corrected generation setup.
+
+## Commands
 
 From the project root:
 
 ```powershell
+python experiments\ablation_study\ablation.py --mode registry
 python experiments\ablation_study\ablation.py --mode validate
 python experiments\ablation_study\ablation.py --mode collect
 python experiments\ablation_study\ablation.py --mode show
-python experiments\ablation_study\ablation.py --mode registry
 ```
 
-The consolidated file is:
+The output table is `outputs/ablation_results.csv`. The CSV contains BLEU-1/2/3/4, ROUGE-1/2/L, METEOR, CIDEr, BERTScore, CheXbert, RadGraph, GREEN, provenance, and metric availability fields.
 
-```text
-experiments\ablation_study\outputs\ablation_results.csv
-```
+## Adding a new experiment
 
-The table includes BLEU-1/2/3/4, COCO-compatible ROUGE-L, ROUGE-1/2,
-METEOR, CIDEr, BERTScore, CheXbert 5/14 micro and macro F1, RadGraph and GREEN,
-plus model/projection/training provenance. All rows use the same report target,
-test IDs and metric worker. `metric_availability` records that BERTScore,
-RadGraph or GREEN were unavailable where their local checkpoint/integration was
-not complete.
+1. Add or validate the component in the appropriate registry.
+2. Use a new checkpoint directory; never overwrite an existing model.
+3. Run the complete test split and save a standard metrics JSON plus prediction CSV.
+4. Add one metadata entry to `EXPERIMENTS` in `ablation.py`.
+5. Run `--mode validate`, then `--mode collect`.
+6. Preserve the resulting CSV row and prediction hash in the experiment record.
 
-## Planned ablations
+Before publication, repeat each selected configuration with fixed seeds, report confidence intervals or paired bootstrap tests, inspect report diversity and pathology-level behavior, and evaluate unavailable clinical scorers in a reproducible environment.
 
-The controlled factors are:
+## Artifact policy
 
-| Factor | Current levels |
-|---|---|
-| Feature extractor | CvT-21; BioViL-T |
-| Decoder | original frozen DistilGPT2; fine-tuned DistilGPT2 |
-| Projector | original linear; new linear; clinical MLP |
-| Auxiliary objective | report CE; report CE + CheXbert auxiliary loss |
-
-The completed rows are exploratory, not a claim of superiority. The clinical
-row collapsed to one report template and should be reported as a negative
-ablation. Before publication, add matched random seeds, confidence intervals or
-paired bootstrap tests, verify unavailable clinical scorers, inspect report
-diversity and pathology-level behavior, and keep the IU test set untouched during
-model selection.
-
-To add a future run, first save its standard `metrics.json` and test prediction
-CSV, then add one entry to `EXPERIMENTS` in `ablation.py` and rerun `--mode
-validate`. This creates one new row without changing prior rows.
-
-Qwen and Llama are listed as planned decoder levels, but their builders refuse
-to run until a visual-token adapter and a local checkpoint are explicitly
-implemented and tested. A decoder-only text model cannot be substituted for
-the current DistilGPT2 cross-attention interface by changing a model name.
-Every experiment must record the local checkpoint path, model revision when
-available, seed, dataset split and preprocessing configuration. No registry
-performs an implicit download or overwrites an existing checkpoint.
-
-## GitHub upload
-
-This workspace currently has no Git metadata or configured remote. The folder is
-ready to commit, but upload requires a GitHub repository URL and authenticated
-Git client. Do not commit downloaded model weights, private datasets or generated
-test predictions unless their licenses and repository policy permit it.
+Do not commit model weights, private datasets, or generated study-level predictions unless their licenses and data-use agreements permit redistribution. The registry stores paths and provenance; it does not perform implicit downloads.
 

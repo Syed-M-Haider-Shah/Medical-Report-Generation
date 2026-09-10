@@ -1,112 +1,70 @@
-# IU X-Ray evaluation with Janus-Pro-CXR-Zero
+# Chest X-ray report-generation experiments
 
-This repository evaluates the frozen local `ZrH42/Janus-Pro-CXR-Zero` checkpoint on study-level IU X-Ray/Open-I cases. It performs no training.
+Reproducible evaluation and ablation studies for chest X-ray report generation. The repository keeps model components, checkpoints, dataset references, experiment metadata, predictions, and metrics separate so that new comparisons can be added without changing the evaluation protocol.
 
-## Split terminology
+## Scope
 
-The raw NLM/Open-I release contains images and XML reports but no publisher-defined train/validation/test split. This project uses the established R2Gen benchmark `annotation.json` split and calls it the **R2Gen benchmark test split**. It never invents or randomly regenerates a test split.
+The project evaluates study-level report generation on IU X-Ray/Open-I using the established R2Gen benchmark annotation split. The current completed comparison contains **590 identical test studies** for every system. No new test split is sampled locally, and no result is presented as a claim of superiority without additional statistical testing.
 
-## Expected data
+The repository supports two complementary tracks:
 
-```text
-datasets/iu_xray/
-â”œâ”€â”€ annotation.json
-â””â”€â”€ images/
-    â””â”€â”€ *.png
-```
+- **Reference evaluation:** the frozen `ZrH42/Janus-Pro-CXR-Zero` checkpoint and the existing IU/MIMIC evaluation scripts.
+- **Ablation study:** controlled combinations of vision encoder, visual-token projector, and language decoder.
 
-The annotation must have R2Gen's structure:
+## Current ablation systems
 
-```json
-{
-  "train": [],
-  "val": [],
-  "test": [
-    {"id": "CXR...", "image_path": ["...png", "...png"], "report": "..."}
-  ]
-}
-```
+| ID | Vision encoder | Projector | Decoder/training | Status |
+|---|---|---|---|---|
+| `cvt2distilgpt2_official` | Original CvT-21 (384 x 384) | Original linear 384 -> 768 | IU-trained DistilGPT2 checkpoint | Complete |
+| `biovilt_distilgpt2_b1` | Microsoft BioViL-T, frozen | Linear 512 -> 768 | Frozen IU DistilGPT2 decoder; projector-only training | Complete |
+| `biovilt_distilgpt2_b2` | Microsoft BioViL-T, frozen | Linear 512 -> 768 | Fine-tuned IU DistilGPT2 decoder | Complete |
+| `biovilt_distilgpt2_clinical` | Microsoft BioViL-T, frozen | MLP 512 -> 1024 -> 768 with clinical head | Report CE plus CheXbert auxiliary loss | Complete |
 
-Every test entry remains one study, even when it contains frontal and lateral images.
-The downloaded R2Gen annotation uses renamed paths such as `study/0.png`; the
-loader deterministically resolves these to the original NLM filenames. R2Gen's
-two single-image studies repeat their sole image in both annotation slots.
+The language decoder in these completed experiments is the IU-trained CvT2DistilGPT2/DistilGPT2 implementation. BioViL-T is the independent Microsoft chest X-ray image encoder. CheXbert is used only in the clinical auxiliary-loss experiment and for clinical label evaluation.
 
-## Environment
+## Results currently available
 
-Use Python 3.10. The currently detected system Python 3.14 is outside the authors' tested dependency range.
+All rows below use the same 590-study IU R2Gen test set. Values are rounded for readability; the machine-readable table preserves full precision.
 
-```powershell
-conda create -n cxr-agent python=3.10 -y
-conda activate cxr-agent
-pip install torch==2.2.1 torchvision==0.17.1 --index-url https://download.pytorch.org/whl/cu118
-pip install -r requirements.txt
+| System | BLEU-1 | BLEU-2 | BLEU-3 | BLEU-4 | ROUGE-L | METEOR | CIDEr | CheXbert micro-F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Official CvT2DistilGPT2 | 0.4723 | 0.3024 | 0.2227 | 0.1740 | 0.3750 | 0.1993 | 0.6850 | 0.5435 |
+| BioViL-T B1 | 0.4285 | 0.2545 | 0.1794 | 0.1358 | 0.3408 | 0.1747 | 0.5278 | 0.5435 |
+| BioViL-T B2 | **0.4894** | **0.3090** | 0.2171 | 0.1564 | 0.3701 | **0.2041** | 0.4776 | 0.5330 |
+| BioViL-T clinical | 0.4266 | 0.2515 | 0.1767 | 0.1335 | 0.3384 | 0.1731 | 0.5254 | 0.5435 |
 
-New-Item -ItemType Directory -Force vendor | Out-Null
-git clone https://github.com/ZrH42/Janus-Pro-CXR.git vendor/Janus-Pro-CXR
-pip install -e vendor/Janus-Pro-CXR
-```
+These are descriptive results from the completed runs, not a statistical significance claim. BERTScore and RadGraph were not available in the recorded environment, and GREEN was not configured; the CSV records the exact reasons rather than replacing missing values with zero.
 
-The model is loaded offline from `models/janus-pro-cxr-zero`. The official Janus implementation is used for processing and generation.
+Full precision and provenance: [`experiments/ablation_study/outputs/ablation_results.csv`](experiments/ablation_study/outputs/ablation_results.csv).
 
-## Validate and run
+## Extensible ablation design
 
-First ensure the dataset finished downloading and that `datasets/iu_xray/annotation.json` is present. Then run one study:
+Future experiments are registered in exactly three component files:
+
+- [`vision_encoders.py`](experiments/ablation_study/vision_encoders.py): encoder name, feature dimension, token layout, input size, and checkpoint provenance.
+- [`projectors.py`](experiments/ablation_study/projectors.py): linear, MLP, identity, and future visual-token adapters.
+- [`llm_decoders.py`](experiments/ablation_study/llm_decoders.py): decoder interface, hidden size, local checkpoint, and compatibility rules.
+
+Qwen2, Llama, and additional encoders are deliberately registry entries until a tested visual-token adapter and local checkpoint are available. Changing a model name alone is not a valid comparison. Each completed run must also be added to `EXPERIMENTS` in [`ablation.py`](experiments/ablation_study/ablation.py), which remains the single collector for split checks and metrics.
+
+## Reproduce the ablation table
+
+From the project root:
 
 ```powershell
-python scripts/evaluate_iu_xray.py --config config.yaml --validate-only
-```
-
-This validates every test entry and referenced image without loading the model. Then run one study:
-
-```powershell
-python scripts/evaluate_iu_xray.py --config config.yaml --limit 1
-```
-
-Run a five-study smoke test:
-
-```powershell
-python scripts/evaluate_iu_xray.py --config config.yaml --limit 5
-```
-
-Run the complete R2Gen benchmark test split:
-
-```powershell
-python scripts/evaluate_iu_xray.py --config config.yaml
-```
-
-Recalculate metrics without loading Janus or regenerating reports:
-
-```powershell
-python scripts/evaluate_iu_xray.py --config config.yaml --metrics-only
-```
-
-Predictions are appended to `outputs/iu_xray/direct/predictions.jsonl` after every successful case, so an interrupted run resumes from its cache. Use `--overwrite` only when intentionally replacing the cached experiment.
-
-The current evaluator reports BLEU-1 through BLEU-4, ROUGE-1/2/L, and METEOR. Clinical metrics and the agentic refinement experiment should be added after one real-image Janus smoke test succeeds.
-
-## Ablation study
-
-The reproducible model-comparison package is in `experiments/ablation_study/`.
-It currently compares four complete IU R2Gen test-set runs (590 matched
-studies): the official CvT2DistilGPT2 baseline, BioViL-T with a frozen
-DistilGPT2 decoder and linear projector (B1), BioViL-T with a fine-tuned
-DistilGPT2 decoder (B2), and the BioViL-T clinical projector/auxiliary-loss
-variant. The report-generation decoder is the IU-trained CvT2DistilGPT2
-implementation; BioViL-T is the independent Microsoft chest-X-ray image
-encoder. The ablation table preserves BLEU, ROUGE, METEOR, CIDEr, CheXbert and
-availability status for unavailable clinical scorers.
-
-Future feature extractors, projectors and decoders are registered in exactly
-three files: `vision_encoders.py`, `projectors.py` and `llm_decoders.py`.
-Qwen2 and Llama are declared as future levels but require a tested visual-token
-adapter and local checkpoint before they can be evaluated fairly. Downloaded
-weights, private datasets and generated predictions are intentionally excluded
-from version control.
-
-```powershell
+python experiments\ablation_study\ablation.py --mode registry
 python experiments\ablation_study\ablation.py --mode validate
 python experiments\ablation_study\ablation.py --mode collect
-python experiments\ablation_study\ablation.py --mode registry
+python experiments\ablation_study\ablation.py --mode show
 ```
+
+`validate` requires every completed prediction file to contain 590 unique studies in the same order. `collect` writes one row per full experiment. Checkpoints and model files are never downloaded implicitly or overwritten by the registries.
+
+## Data, checkpoints, and privacy
+
+Large model weights, private datasets, generated predictions, and local caches are excluded from version control. Their paths and hashes are recorded in the experiment table when available. Follow the license and access requirements of IU X-Ray/Open-I, MIMIC-CXR, BioViL-T, CvT2DistilGPT2, DistilGPT2, Janus-Pro-CXR-Zero, and CheXbert before redistributing any artifact.
+
+## Repository status
+
+This repository is intentionally maintained as an evolving research codebase. New model families can be added through the three registries while preserving the same split, preprocessing, metric definitions, provenance fields, and CSV schema.
 

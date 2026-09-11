@@ -1,0 +1,15 @@
+model_name,device,input_shape,resolution,raw_output_type,raw_feature_shape,selected_feature_shape,visual_tokens,embedding_dim,dtype,inference_seconds,representation_type,status,reason
+biovilt,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\biovilt
+cxrclip_swint_mimic,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\cxrclip_swint_mimic
+xray_siglip,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\xray_siglip
+xray_clip,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\xray_clip
+gloria,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\gloria
+mgca,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\mgca
+refers,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\refers
+biomedclip_cxr_llava_rad,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\biomedclip_cxr_llava_rad
+mrm_benchx,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\mrm_benchx
+medklip_benchx,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\medklip_benchx
+mflag_benchx,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\mflag_benchx
+ptunifier_benchx,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\ptunifier_benchx
+convirt_benchx,not_run,,,,,,,,,,,NOT_AVAILABLE,Local checkpoint directory absent: C:\Users\Ayman\Desktop\Codex projects\Agentic AI\cache\models\convirt_benchx
+

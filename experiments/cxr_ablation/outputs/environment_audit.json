@@ -1,0 +1,11 @@
+{
+  "python": "3.10.21 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:35:39) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "packages": {
+    "PyYAML": "6.0.3",
+    "timm": "0.4.12",
+    "torch": "2.2.1+cu121",
+    "torchvision": "0.17.1+cu121",
+    "transformers": "4.35.2"
+  }
+}

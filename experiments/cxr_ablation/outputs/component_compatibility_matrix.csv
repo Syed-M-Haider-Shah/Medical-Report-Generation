@@ -1,0 +1,80 @@
+encoder,decoder,classification,reason
+biovilt,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+biovilt,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+biovilt,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+biovilt,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+biovilt,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+biovilt,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+cxrclip_swint_mimic,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+cxrclip_swint_mimic,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+cxrclip_swint_mimic,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+cxrclip_swint_mimic,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+cxrclip_swint_mimic,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+cxrclip_swint_mimic,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+xray_siglip,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+xray_siglip,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+xray_siglip,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+xray_siglip,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+xray_siglip,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+xray_siglip,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+xray_clip,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+xray_clip,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+xray_clip,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+xray_clip,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+xray_clip,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+xray_clip,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+gloria,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+gloria,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+gloria,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+gloria,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+gloria,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+gloria,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+mgca,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+mgca,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+mgca,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+mgca,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+mgca,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+mgca,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+refers,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+refers,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+refers,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+refers,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+refers,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+refers,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+biomedclip_cxr_llava_rad,radphi2,FULL_MODEL_ONLY,native connector must be separated and tested
+biomedclip_cxr_llava_rad,libra_3b,FULL_MODEL_ONLY,native connector must be separated and tested
+biomedclip_cxr_llava_rad,radialog_rg,FULL_MODEL_ONLY,native connector must be separated and tested
+biomedclip_cxr_llava_rad,llava_rad,FULL_MODEL_ONLY,native connector must be separated and tested
+biomedclip_cxr_llava_rad,xraygpt,FULL_MODEL_ONLY,native connector must be separated and tested
+biomedclip_cxr_llava_rad,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+mrm_benchx,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+mrm_benchx,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+mrm_benchx,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+mrm_benchx,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+mrm_benchx,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+mrm_benchx,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+medklip_benchx,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+medklip_benchx,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+medklip_benchx,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+medklip_benchx,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+medklip_benchx,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+medklip_benchx,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+mflag_benchx,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+mflag_benchx,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+mflag_benchx,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+mflag_benchx,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+mflag_benchx,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+mflag_benchx,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+ptunifier_benchx,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+ptunifier_benchx,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+ptunifier_benchx,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+ptunifier_benchx,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+ptunifier_benchx,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+ptunifier_benchx,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+convirt_benchx,radphi2,FULL_MODEL_ONLY,external visual embedding interface must be verified
+convirt_benchx,libra_3b,FULL_MODEL_ONLY,native RAD-DINO/TAC/Llama stack
+convirt_benchx,radialog_rg,FULL_MODEL_ONLY,published checkpoint includes a project-specific image embedding path
+convirt_benchx,llava_rad,FULL_MODEL_ONLY,native projector and decoder pairing must be preserved
+convirt_benchx,xraygpt,FULL_MODEL_ONLY,full multimodal architecture; no clean decoder-only release verified
+convirt_benchx,maira2,FULL_MODEL_ONLY,Decoder is registered as a complete pretrained system
+

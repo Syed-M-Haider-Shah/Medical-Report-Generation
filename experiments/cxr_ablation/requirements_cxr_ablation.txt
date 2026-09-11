@@ -1,0 +1,20 @@
+# Core audit/download tooling (install into a separate environment)
+pyyaml>=6.0
+huggingface_hub>=0.24
+packaging>=23.2
+pandas>=2.0
+numpy>=1.24
+torch>=2.1
+torchvision>=0.16
+transformers>=4.40
+timm>=0.9
+Pillow>=10.0
+scikit-learn>=1.3
+rouge-score>=0.1.2
+nltk>=3.8
+bert-score>=0.3.13
+
+# Model-specific packages are intentionally not installed automatically.
+# Install only after an audit confirms the model and license: health-multimodal,
+# cxr-clip, CheXagent/RadPhi, RaDialog or Libra dependencies.
+

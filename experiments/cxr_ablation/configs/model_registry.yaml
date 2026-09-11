@@ -1,0 +1,236 @@
+# Audited model registry. Null fields are intentionally explicit: they mean the
+# official source/checkpoint still needs verification, not that a URL is guessed.
+encoders:
+  biovilt:
+    display_name: Microsoft BioViL-T
+    role: cxr_report_pretrained_encoder
+    official_repo_url: https://github.com/microsoft/hi-ml
+    huggingface_repo: microsoft/BiomedVLP-BioViL-T
+    checkpoint_name: pytorch_model.bin
+    license: Microsoft research/model-card terms; verify before redistribution
+    trained_on: MS-CXR and related chest-X-ray/report supervision
+    download_strategy: huggingface_snapshot
+    component_compatible: true
+  cxrclip_swint_mimic:
+    display_name: CXR-CLIP Swin-T MIMIC-CXR
+    role: cxr_report_pretrained_encoder
+    official_repo_url: https://github.com/Soombit-ai/cxr-clip
+    huggingface_repo: null
+    checkpoint_name: model-best.tar
+    license: CC BY-NC 4.0 (project README)
+    trained_on: MIMIC-CXR; variants also use CheXpert and ChestX-ray14
+    download_strategy: official_release_manual
+    component_compatible: true
+  xray_siglip:
+    display_name: CheXagent XraySigLIP
+    role: cxr_adapted_encoder
+    official_repo_url: https://github.com/Stanford-AIMI/CheXagent
+    huggingface_repo: StanfordAIMI/XraySigLIP__vit-b-16-siglip-512__webli
+    checkpoint_name: model files in Hugging Face repository
+    license: model-card terms; verify before redistribution
+    trained_on: CheXagent/XraySigLIP chest-X-ray adaptation
+    download_strategy: huggingface_snapshot
+    component_compatible: true
+  xray_clip:
+    display_name: CheXagent XrayCLIP
+    role: cxr_adapted_encoder
+    official_repo_url: https://github.com/Stanford-AIMI/CheXagent
+    huggingface_repo: StanfordAIMI/XrayCLIP__vit-b-16-siglip-512__webli
+    checkpoint_name: model files in Hugging Face repository
+    license: model-card terms; verify before redistribution
+    trained_on: CheXagent chest-X-ray adaptation
+    download_strategy: huggingface_snapshot
+    component_compatible: true
+  gloria:
+    display_name: GLoRIA
+    role: cxr_report_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: MIMIC-CXR in the published method
+    download_strategy: manual_verification_required
+    component_compatible: true
+  mgca:
+    display_name: MGCA
+    role: cxr_report_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: MIMIC-CXR in the published method
+    download_strategy: manual_verification_required
+    component_compatible: true
+  refers:
+    display_name: REFERS
+    role: cxr_report_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: chest-X-ray/report supervision reported by authors
+    download_strategy: manual_verification_required
+    component_compatible: true
+  biomedclip_cxr_llava_rad:
+    display_name: LLaVA-Rad CXR visual encoder
+    role: cxr_adapted_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: CXR-specialised LLaVA-Rad system
+    download_strategy: manual_verification_required
+    component_compatible: false
+    compatibility_reason: native connector must be separated and tested
+  mrm_benchx:
+    display_name: MRM (BenchX)
+    role: cxr_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: MIMIC-CXR reported by BenchX
+    download_strategy: manual_verification_required
+    component_compatible: true
+  medklip_benchx:
+    display_name: MedKLIP (BenchX)
+    role: cxr_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: chest-X-ray data reported by BenchX
+    download_strategy: manual_verification_required
+    component_compatible: true
+  mflag_benchx:
+    display_name: M-FLAG (BenchX)
+    role: cxr_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: chest-X-ray data reported by BenchX
+    download_strategy: manual_verification_required
+    component_compatible: true
+  ptunifier_benchx:
+    display_name: PTUnifier (BenchX)
+    role: cxr_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: chest-X-ray data reported by BenchX
+    download_strategy: manual_verification_required
+    component_compatible: true
+  convirt_benchx:
+    display_name: ConVIRT (BenchX)
+    role: cxr_pretrained_encoder
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: chest-X-ray image-text pretraining
+    download_strategy: manual_verification_required
+    component_compatible: true
+decoders:
+  radphi2:
+    display_name: RadPhi-2 / CheXagent radiology language model
+    role: cxr_specialised_decoder_candidate
+    official_repo_url: https://github.com/Stanford-AIMI/CheXagent
+    huggingface_repo: StanfordAIMI/RadPhi-2
+    checkpoint_name: model files in Hugging Face repository
+    license: model-card terms; verify before redistribution
+    trained_on: CheXagent radiology instruction/report data
+    supports_external_inputs_embeds: unknown
+    component_compatible: false
+    compatibility_reason: external visual embedding interface must be verified
+    download_strategy: huggingface_snapshot
+  libra_3b:
+    display_name: Libra v1.0 3B
+    role: cxr_specialised_full_model
+    official_repo_url: https://github.com/X-iZhang/Libra
+    huggingface_repo: X-iZhang/libra-v1.0-3b
+    checkpoint_name: repository model card
+    license: model-card terms; verify base Llama license
+    trained_on: MIMIC-CXR
+    supports_external_inputs_embeds: false
+    component_compatible: false
+    compatibility_reason: native RAD-DINO/TAC/Llama stack
+    download_strategy: huggingface_snapshot
+  radialog_rg:
+    display_name: RaDialog-RG
+    role: cxr_specialised_decoder_candidate
+    official_repo_url: https://github.com/ChantalMP/RaDialog
+    huggingface_repo: null
+    checkpoint_name: vicuna-7b-img-report/checkpoint-11200
+    license: base Vicuna and project terms; verify before redistribution
+    trained_on: MIMIC-CXR reports
+    supports_external_inputs_embeds: unknown
+    component_compatible: false
+    compatibility_reason: published checkpoint includes a project-specific image embedding path
+    download_strategy: official_repo_manual
+  llava_rad:
+    display_name: LLaVA-Rad
+    role: cxr_specialised_full_model
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: null
+    license: UNVERIFIED
+    trained_on: radiology/CXR data reported by authors
+    supports_external_inputs_embeds: unknown
+    component_compatible: false
+    compatibility_reason: native projector and decoder pairing must be preserved
+    download_strategy: manual_verification_required
+  xraygpt:
+    display_name: XrayGPT
+    role: cxr_specialised_full_model
+    official_repo_url: https://github.com/mbzuai-oryx/XRayGPT
+    huggingface_repo: null
+    checkpoint_name: project configuration references Vicuna/Minigpt-4 components
+    license: base-model and project terms; verify before redistribution
+    trained_on: MIMIC-CXR reported by authors
+    supports_external_inputs_embeds: unknown
+    component_compatible: false
+    compatibility_reason: full multimodal architecture; no clean decoder-only release verified
+    download_strategy: official_repo_manual
+  maira2:
+    display_name: MAIRA-2
+    role: complete_external_baseline
+    official_repo_url: null
+    huggingface_repo: microsoft/maira-2
+    checkpoint_name: model-card checkpoint if accessible
+    license: model-card terms; verify access
+    trained_on: radiology/CXR data reported by authors
+    supports_external_inputs_embeds: false
+    component_compatible: false
+    compatibility_reason: evaluate as complete model only
+    download_strategy: huggingface_snapshot
+full_models:
+  chexagent2_srrg_findings:
+    display_name: CheXagent-2-3B SRRG Findings
+    role: complete_external_baseline
+    official_repo_url: https://github.com/Stanford-AIMI/CheXagent
+    huggingface_repo: StanfordAIMI/CheXagent-2-3b-srrg-findings
+    checkpoint_name: repository model card
+    license: model-card terms; verify before redistribution
+    trained_on: CheXagent chest-X-ray/radiology data
+    download_strategy: huggingface_snapshot
+  r2gen_iu:
+    display_name: R2Gen IU checkpoint
+    role: complete_external_baseline
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: official project checkpoint requires verification
+    license: UNVERIFIED
+    trained_on: IU/OpenI
+    download_strategy: manual_verification_required
+  r2gencmn_iu:
+    display_name: R2GenCMN IU checkpoint
+    role: complete_external_baseline
+    official_repo_url: null
+    huggingface_repo: null
+    checkpoint_name: official project checkpoint requires verification
+    license: UNVERIFIED
+    trained_on: IU/OpenI
+    download_strategy: manual_verification_required
+

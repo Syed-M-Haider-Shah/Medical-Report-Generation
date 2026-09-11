@@ -1,0 +1,33 @@
+# MIMIC-CXR uses the same component/training code with a different metadata
+# adapter. Point annotation to an official held-out split or local manifest.
+experiment:
+  dataset: mimic_cxr
+  target: findings
+  seed: 1337
+  device: auto
+  output_root: experiments/cxr_ablation/outputs
+dataset:
+  annotation: datasets/mimic_cxr/test_manifest.json
+  split: official_test
+  multi_view: true
+  preserve_study_grouping: true
+connector:
+  name: mlp2
+  hidden_multiplier: 2
+  dropout: 0.1
+training:
+  encoder_frozen: true
+  decoder_frozen: true
+  epochs: 10
+  batch_size: 1
+  gradient_accumulation: 8
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  precision: 16-mixed
+  max_target_length: 256
+generation:
+  max_new_tokens: 128
+  num_beams: 1
+  do_sample: false
+  temperature: 1.0
+

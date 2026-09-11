@@ -1,0 +1,33 @@
+{
+  "annotation": "datasets\\iu_xray\\annotation.json",
+  "sha256": "56cdca10b3a0be7500da93dd7df5f99e6d6d4ef4d68ba318a75f22e59e422b13",
+  "splits": {
+    "train": {
+      "studies": 2069,
+      "unique_study_ids": 2069,
+      "image_references": 4138,
+      "duplicate_image_references": 0,
+      "views_per_study": {
+        "2": 2069
+      }
+    },
+    "val": {
+      "studies": 296,
+      "unique_study_ids": 296,
+      "image_references": 592,
+      "duplicate_image_references": 0,
+      "views_per_study": {
+        "2": 296
+      }
+    },
+    "test": {
+      "studies": 590,
+      "unique_study_ids": 590,
+      "image_references": 1180,
+      "duplicate_image_references": 0,
+      "views_per_study": {
+        "2": 590
+      }
+    }
+  }
+}

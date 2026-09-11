@@ -68,3 +68,7 @@ Large model weights, private datasets, generated predictions, and local caches a
 
 This repository is intentionally maintained as an evolving research codebase. New model families can be added through the three registries while preserving the same split, preprocessing, metric definitions, provenance fields, and CSV schema.
 
+## Broader CXR ablation study
+
+The audit-first multi-model framework is in [`experiments/cxr_ablation`](experiments/cxr_ablation/README.md). It is separate from the completed four-run table and is designed for BioViL-T, CXR-CLIP, CheXagent XraySigLIP/XrayCLIP, GLoRIA, MGCA, REFERS, RadPhi, Libra, RaDialog, LLaVA-Rad, XrayGPT, MAIRA-2 and later additions. It verifies official sources, licences, checkpoint access, feature representations and encoder-decoder compatibility before training. It does not silently replace gated or technically incompatible models.
+
